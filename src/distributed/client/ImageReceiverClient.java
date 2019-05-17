@@ -28,7 +28,7 @@ public class ImageReceiverClient implements Runnable {
     public void run() {
         try {
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(this.outputPath + "log/pti_tpi2.txt", true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(this.outputPath + "log/pti_tpi3.txt", true));
             while (true) {
                 long stream_size = this.input.readLong();
 //                System.out.println("Waiting to receive " + stream_size + " bytes");
@@ -80,6 +80,7 @@ public class ImageReceiverClient implements Runnable {
 
             BufferedWriter writer_tpt = new BufferedWriter(new FileWriter(this.outputPath + "log/tpt3.txt", true));
             writer_tpt.write(String.valueOf(total_processing_time));
+            writer_tpt.newLine();
             writer_tpt.close();
 
         } catch (IOException ex) {
