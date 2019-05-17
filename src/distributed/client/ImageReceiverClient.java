@@ -28,7 +28,7 @@ public class ImageReceiverClient implements Runnable {
     public void run() {
         try {
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(this.outputPath + "log/pti_tpi.txt", true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(this.outputPath + "log/pti_tpi2.txt", true));
             while (true) {
                 long stream_size = this.input.readLong();
 //                System.out.println("Waiting to receive " + stream_size + " bytes");
@@ -40,7 +40,7 @@ public class ImageReceiverClient implements Runnable {
 
                 String name = this.input.readUTF();
 
-                System.out.println("Receiving file: " + name);
+//                System.out.println("Receiving file: " + name);
 
                 long processing_time_per_image = this.input.readLong();
                 this.times.add(processing_time_per_image);
@@ -73,10 +73,15 @@ public class ImageReceiverClient implements Runnable {
             }
             long end = System.currentTimeMillis();
             long total_processing_time = (end-this.begin);
-//            System.out.println("\n- Total Processing Time / Tempo de Processamento Total");
-//            System.out.println("- " + (total_processing_time) + " Milliseconds / Milissegundos");
+            System.out.println("\n- Total Processing Time / Tempo de Processamento Total");
+            System.out.println("- " + (total_processing_time) + " Milliseconds / Milissegundos");
 
             writer.close();
+
+            BufferedWriter writer_tpt = new BufferedWriter(new FileWriter(this.outputPath + "log/tpt3.txt", true));
+            writer_tpt.write(String.valueOf(total_processing_time));
+            writer_tpt.close();
+
         } catch (IOException ex) {
             Logger.getLogger(ImageReceiverServer.class.getName()).log(Level.SEVERE, null, ex);
         }
