@@ -1,6 +1,8 @@
 package distributed.server;
 
-import processor.ProcessadorImagens;
+import org.opencv.core.Mat;
+import processor.Converter;
+import processor.DetectFace;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -20,7 +22,9 @@ public class ImageReceiverServer implements Runnable {
     @Override
     public void run() {
 
-        ProcessadorImagens proc = new ProcessadorImagens();
+//        ProcessadorImagens proc = new ProcessadorImagens();
+        DetectFace proc = new DetectFace();
+        Converter converter = new Converter();
 
         try {
 
@@ -35,15 +39,13 @@ public class ImageReceiverServer implements Runnable {
                 }
 //                System.out.println("Esperando receber imagem de " + stream_size + " bytes");
 
-                String nome = input.readUTF();
+                String name = input.readUTF();
 
-                System.out.println("Receiving file: " + nome);
-
-                int brilho = input.readInt();
+//                System.out.println("Receiving file: " + name);
 
 //                System.out.println("Brilho a ser aplicado: " + brilho);
 
-                nome = nome + "_processed";
+//                name = name + "_processed";
 
                 byte[] stream = new byte[16 * 1024];
                 int count = 0;
@@ -63,13 +65,18 @@ public class ImageReceiverServer implements Runnable {
                 //criando a imagem a partir do array de stream de bytes
                 BufferedImage img = ImageIO.read(new ByteArrayInputStream(byte_out.toByteArray()));
 
+//                long begin = System.currentTimeMillis();
+//                proc.brilho(img, brilho);
+
+                Mat imgMat = converter.toMat(img);
                 long begin = System.currentTimeMillis();
-                proc.brilho(img, brilho);
+                Mat imgOut = proc.detection(imgMat);
+
 //                System.out.println("Imagem processada...");
                 long end = System.currentTimeMillis();
                 long processing_time = end - begin;
                 File f2 = new File("temp.jpg");  //output file path
-                ImageIO.write(img, "jpg", f2);
+                ImageIO.write(converter.toBufferedImage(imgOut), "jpg", f2);
 //                System.out.println("Imagem temp salva...");
 
                 File f3 = new File("temp.jpg");
@@ -82,10 +89,15 @@ public class ImageReceiverServer implements Runnable {
                 DataOutputStream output = new DataOutputStream(this.sock.getOutputStream());
                 //enviando a quantidade de bytes do arquivo
                 output.writeLong(length);
-                //enviadno nome do arquivo
-                output.writeUTF(nome + ".jpg");
+                //enviadno name do arquivo
+                System.out.println("Sending "+name+ "_p" + "...");
+                output.writeUTF((name + "_p" +  ".jpg"));
                 //enviadno
+//                output.writeLong();
+                //enviando
                 output.writeLong(processing_time);
+//                proc.getNumberOfFaces();
+                output.writeLong(proc.getNumberOfFaces());
                 //enviando o arquivo pela rede
                 count = 0;
                 //enquanto houver bytes para enviar, obtém do arquivo e manda pela rede

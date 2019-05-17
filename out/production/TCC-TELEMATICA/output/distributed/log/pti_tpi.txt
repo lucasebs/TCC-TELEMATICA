@@ -1,0 +1,14 @@
+"-545-3345_processed.jpg";99;8540
+"-545-3322_processed.jpg";92;9944
+"-545-3335_processed.jpg";119;9752
+"-545-3348_processed.jpg";87;8681
+"-545-3352_processed.jpg";62;9260
+"-545-3339_processed.jpg";80;8938
+"-545-3340_processed.jpg";65;5480
+"-545-3345_processed.jpg";99;8389
+"-545-3322_processed.jpg";92;10087
+"-545-3335_processed.jpg";119;9836
+"-545-3348_processed.jpg";87;9066
+"-545-3352_processed.jpg";62;9652
+"-545-3339_processed.jpg";80;9001
+"-545-3340_processed.jpg";65;5448

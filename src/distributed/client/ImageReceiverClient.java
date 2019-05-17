@@ -31,19 +31,21 @@ public class ImageReceiverClient implements Runnable {
             BufferedWriter writer = new BufferedWriter(new FileWriter(this.outputPath + "log/pti_tpi.txt", true));
             while (true) {
                 long stream_size = this.input.readLong();
-                System.out.println("Waiting to receive " + stream_size + " bytes");
+//                System.out.println("Waiting to receive " + stream_size + " bytes");
 
                 if (stream_size == 0) {
                     System.out.println("No more transmissions...");
                     break;
                 }
 
-                String nome = this.input.readUTF();
+                String name = this.input.readUTF();
 
-                System.out.println("Receiving file: " + nome);
+                System.out.println("Receiving file: " + name);
 
                 long processing_time_per_image = this.input.readLong();
                 this.times.add(processing_time_per_image);
+
+                long numberOfFaces = this.input.readLong();
 
                 byte[] stream = new byte[16 * 1024];
                 int count;
@@ -54,22 +56,25 @@ public class ImageReceiverClient implements Runnable {
                     byte_out.write(stream, 0, count);
                     lidos += count;
                 }
-                System.out.println( "- Processing Time per Image: " +
-                         processing_time_per_image + " Milliseconds / Milissegundos");
+//                System.out.println( "- Processing Time per Image: " +
+//                         processing_time_per_image + " Milliseconds / Milissegundos");
 
-                writer.write( '"' + nome + '"' + ';'+ String.valueOf(processing_time_per_image));
+                String toWrite = '"' + name + '"' + ';'+ String.valueOf(numberOfFaces)
+                                    + ';'+ String.valueOf(processing_time_per_image);
+                System.out.println(toWrite);
+                writer.write(toWrite);
                 writer.newLine();
 
                 //criando a imagem a partir do array de stream de bytes
                 BufferedImage img = ImageIO.read(new ByteArrayInputStream(byte_out.toByteArray()));
 
-                File f2 = new File(this.outputPath + "images/" + nome);
+                File f2 = new File(this.outputPath + "images/" + name);
                 ImageIO.write(img, "jpg", f2);
             }
             long end = System.currentTimeMillis();
             long total_processing_time = (end-this.begin);
-            System.out.println("\n- Total Processing Time / Tempo de Processamento Total");
-            System.out.println("- " + (total_processing_time) + " Milliseconds / Milissegundos");
+//            System.out.println("\n- Total Processing Time / Tempo de Processamento Total");
+//            System.out.println("- " + (total_processing_time) + " Milliseconds / Milissegundos");
 
             writer.close();
         } catch (IOException ex) {

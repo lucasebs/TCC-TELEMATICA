@@ -14,6 +14,7 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs;
+import processor.Converter;
 import processor.DetectFace;
 
 public class Consumer implements  Runnable {
@@ -31,52 +32,13 @@ public class Consumer implements  Runnable {
         this.block = block;
     }
 
-    private static Mat convertToMat(BufferedImage buffImg) {
-        BufferedImage convertedImg = null;
-
-        // Convert the image to TYPE_3BYTE_BGR, if necessary
-        if (buffImg.getType() == BufferedImage.TYPE_3BYTE_BGR) {
-            convertedImg = buffImg;
-        } else {
-            convertedImg = new BufferedImage(buffImg.getWidth(), buffImg.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
-        }
-
-        convertedImg.getGraphics().drawImage(buffImg, 0, 0, null);
-
-        WritableRaster raster = convertedImg.getRaster();
-        DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
-        byte[] pixels = data.getData();
-
-        Mat mat = new Mat(buffImg.getHeight(), buffImg.getWidth(), CvType.CV_8UC3);
-        mat.put(0, 0, pixels);
-        return mat;
-    }
-
-    private static BufferedImage convertoToBufferedImage(Mat image) {
-
-        MatOfByte matOfByte = new MatOfByte();
-
-        // encoding to png, so that your image does not lose information like with jpeg.
-        Imgcodecs.imencode(".png", image, matOfByte);
-
-        byte[] byteArray = matOfByte.toArray();
-        InputStream in = new ByteArrayInputStream(byteArray);
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(in);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return img;
-    }
-
 
     @Override
     public void run() {
 //        System.out.println("{ Consumer - Running }");
 
         DetectFace proc = new DetectFace();
+        Converter converter = new Converter();
 
         BufferedWriter writer = null;
         try {
@@ -100,7 +62,7 @@ public class Consumer implements  Runnable {
     //            System.out.println("{ Consumer : Free }");
 
 //                System.out.println(" - Image '" + this.img.getFile_name() + "'...");
-                Mat imgMat = this.convertToMat(this.img.getImg());
+                Mat imgMat = converter.toMat(this.img.getImg());
                 long begin = System.currentTimeMillis();
                 Mat imgOut = proc.detection(imgMat);
 //                System.out.println(String.format("Detected %s faces in %s", proc.getNumberOfFaces(), this.img.getFile_name()));
@@ -118,7 +80,7 @@ public class Consumer implements  Runnable {
 
                 try {
                     File f = new File(this.outputPath + "images/" + this.img.getFile_name() + ".jpg");
-                    ImageIO.write(this.convertoToBufferedImage(imgOut), "jpg", f);
+                    ImageIO.write(converter.toBufferedImage(imgOut), "jpg", f);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

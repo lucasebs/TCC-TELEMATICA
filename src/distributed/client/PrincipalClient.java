@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,12 +19,13 @@ public class PrincipalClient {
 
         ArrayList<String> result = new ArrayList<String>();
 
-        File folder = new File("src/input/video/");
+        File folder = new File("src/input/samples/");
         File[] listOfFiles = folder.listFiles();
 
         for (int j = 0; j < listOfFiles.length; j++) {
             result.add(listOfFiles[j].getName());
         }
+        Collections.sort(result);
 
         int i = 0;
         String line;
@@ -65,8 +67,6 @@ public class PrincipalClient {
             output.writeLong(length);
             //enviando o nome do arquivo
             output.writeUTF(r.split("\\.")[0]);
-            //enviando o brilho a ser aplicado
-            output.writeInt(100);
             //enviando o arquivo pela rede
             int count = 0;
             //enquanto houver bytes para enviar, obtém do arquivo e manda pela rede
