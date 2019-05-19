@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>centralized</OriginalElement>
+  <nodes>
+    <node x="501.0" y="492.0">centralized.Consumer</node>
+    <node x="335.22689393939396" y="0.0">centralized.Image</node>
+    <node x="397.7825757575758" y="749.0">centralized.Principal</node>
+    <node x="656.2825757575757" y="301.0">processor.DetectFace</node>
+    <node x="0.0" y="492.0">centralized.Producer</node>
+    <node x="383.5" y="312.0">centralized.Buffer</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="centralized.Principal" target="centralized.Consumer">
+      <point x="41.74999999999994" y="-25.5" />
+      <point x="523.0325757575757" y="719.0" />
+      <point x="575.25" y="719.0" />
+      <point x="-74.25" y="103.5" />
+    </edge>
+    <edge source="centralized.Producer" target="centralized.Image">
+      <point x="-58.625" y="-103.5" />
+      <point x="175.875" y="467.0" />
+      <point x="163.9405303030303" y="467.0" />
+      <point x="163.9405303030303" y="281.0" />
+      <point x="403.62689393939394" y="281.0" />
+      <point x="-45.60000000000002" y="125.5" />
+    </edge>
+    <edge source="centralized.Principal" target="centralized.Buffer">
+      <point x="13.916666666666629" y="-25.5" />
+      <point x="495.1992424242424" y="729.0" />
+      <point x="490.5" y="729.0" />
+      <point x="490.5" y="467.0" />
+      <point x="501.91666666666663" y="467.0" />
+      <point x="16.91666666666663" y="59.5" />
+    </edge>
+    <edge source="centralized.Producer" target="centralized.Buffer">
+      <point x="58.625" y="-103.5" />
+      <point x="293.125" y="467.0" />
+      <point x="400.41666666666663" y="467.0" />
+      <point x="-84.58333333333337" y="59.5" />
+    </edge>
+    <edge source="centralized.Principal" target="centralized.Producer">
+      <point x="-69.58333333333337" y="-25.5" />
+      <point x="411.6992424242424" y="729.0" />
+      <point x="117.25" y="729.0" />
+      <point x="-117.25" y="103.5" />
+    </edge>
+    <edge source="centralized.Consumer" target="centralized.Buffer">
+      <point x="-59.39999999999998" y="-103.5" />
+      <point x="590.1" y="467.0" />
+      <point x="569.5833333333334" y="467.0" />
+      <point x="84.58333333333337" y="59.5" />
+    </edge>
+    <edge source="centralized.Buffer" target="centralized.Image">
+      <point x="-50.75" y="-59.5" />
+      <point x="434.25" y="281.0" />
+      <point x="449.22689393939396" y="281.0" />
+      <point x="0.0" y="125.5" />
+    </edge>
+    <edge source="centralized.Consumer" target="processor.DetectFace">
+      <point x="118.79999999999995" y="-103.5" />
+      <point x="768.3" y="467.0" />
+      <point x="826.5325757575757" y="467.0" />
+      <point x="56.75" y="70.5" />
+    </edge>
+    <edge source="centralized.Consumer" target="centralized.Image">
+      <point x="0.0" y="-103.5" />
+      <point x="649.5" y="467.0" />
+      <point x="645.7825757575757" y="467.0" />
+      <point x="645.7825757575757" y="271.0" />
+      <point x="540.4268939393938" y="271.0" />
+      <point x="91.19999999999993" y="125.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="442.0" y="398.5" />
+  <SelectedNodes>
+    <node>processor.DetectFace</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>distributed</OriginalElement>
+  <nodes>
+    <node x="252.89999999999998" y="192.0">distributed.server.ImageReceiverServer</node>
+    <node x="327.0" y="396.0">distributed.server.PrincipalServer</node>
+    <node x="249.89999999999998" y="0.0">processor.DetectFace</node>
+    <node x="0.0" y="340.0">distributed.client.ImageReceiverClient</node>
+    <node x="94.89999999999998" y="554.0">distributed.client.PrincipalClient</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="distributed.server.PrincipalServer" target="distributed.server.ImageReceiverServer">
+      <point x="-42.25" y="-26.0" />
+      <point x="369.25" y="315.0" />
+      <point x="365.4" y="315.0" />
+      <point x="0.0" y="49.0" />
+    </edge>
+    <edge source="distributed.server.ImageReceiverServer" target="processor.DetectFace">
+      <point x="-56.25" y="-49.0" />
+      <point x="309.15" y="167.0" />
+      <point x="307.15" y="167.0" />
+      <point x="-57.25" y="71.0" />
+    </edge>
+    <edge source="distributed.client.PrincipalClient" target="distributed.client.ImageReceiverClient">
+      <point x="-42.25" y="-26.0" />
+      <point x="137.14999999999998" y="529.0" />
+      <point x="76.75" y="529.0" />
+      <point x="-76.75" y="82.0" />
+    </edge>
+    <edge source="distributed.client.ImageReceiverClient" target="distributed.server.ImageReceiverServer">
+      <point x="0.0" y="-82.0" />
+      <point x="153.5" y="315.0" />
+      <point x="290.4" y="315.0" />
+      <point x="-75.0" y="49.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="87.5" y="189.0" />
+  <SelectedNodes>
+    <node>processor.DetectFace</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

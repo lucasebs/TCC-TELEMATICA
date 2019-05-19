@@ -16,7 +16,7 @@ public class Principal {
         ArrayList<Consumer> consumers = new ArrayList<Consumer>();
         ArrayList<Thread> threads = new ArrayList<Thread>();
 
-        Integer threadsQuantity = 7;
+        Integer threadsQuantity = 3;
         String outputPath = "src/output/centralized/";
 
         for (int i=0;i<threadsQuantity;i++) {
