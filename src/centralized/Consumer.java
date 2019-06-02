@@ -24,12 +24,14 @@ public class Consumer implements  Runnable {
     private Image img;
     private ArrayList<Long> times = new ArrayList<Long>();
     private String outputPath = "src/output/centralized/";
+    private Integer round;
 
-    public Consumer(Buffer buffer, Semaphore free, Semaphore block) {
+    public Consumer(Buffer buffer, Semaphore free, Semaphore block, Integer round) {
 //        System.out.println("{ Consumer - Builded }");
         this.buffer = buffer;
         this.free = free;
         this.block = block;
+        this.round = round;
     }
 
 
@@ -42,7 +44,7 @@ public class Consumer implements  Runnable {
 
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter(this.outputPath + "log/pti_tpi.txt", true));
+            writer = new BufferedWriter(new FileWriter(this.outputPath + "log/pti_tpi" + this.round +".txt", true));
 
             while(true) {
                 try {
@@ -72,8 +74,10 @@ public class Consumer implements  Runnable {
                 long end = System.currentTimeMillis();
                 this.times.add(end-begin);
 
-                String toWrite = '"' + this.img.getFile_name() + '"' + ';' + proc.getNumberOfFaces() + ';' +
-                        String.valueOf(this.times.get(this.times.size() - 1));
+//                String toWrite = '"' + this.img.getFile_name() + '"' + ';' + proc.getNumberOfFaces() + ';' +
+//                        String.valueOf(this.times.get(this.times.size() - 1));
+                String toWrite = '"' + this.img.getFile_name() + '"' + ';' + String.valueOf(this.times.get(this.times.size() - 1));
+
                 System.out.println(toWrite);
                 writer.write(toWrite);
                 writer.newLine();

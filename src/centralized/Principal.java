@@ -17,52 +17,55 @@ public class Principal {
         ArrayList<Thread> threads = new ArrayList<Thread>();
 
         Integer threadsQuantity = 3;
+        Integer executionTimes = 10;
         String outputPath = "src/output/centralized/";
 
-        for (int i=0;i<threadsQuantity;i++) {
-            Semaphore free = new Semaphore(2);
-            Semaphore block = new Semaphore(0);
-            Buffer buffer = new Buffer();
-            Consumer c = new Consumer(buffer,free,block);
-            Thread tc = new Thread(c);
+        for (int round=0;round<executionTimes;round++) {
+            for (int i=0;i<threadsQuantity;i++) {
+                Semaphore free = new Semaphore(2);
+                Semaphore block = new Semaphore(0);
+                Buffer buffer = new Buffer();
+                Consumer c = new Consumer(buffer,free,block,round);
+                Thread tc = new Thread(c);
 
-            semaphoresFree.add(free);
-            semaphoresBlocked.add(block);
-            buffers.add(buffer);
-            consumers.add(c);
-            threads.add(tc);
-        }
+                semaphoresFree.add(free);
+                semaphoresBlocked.add(block);
+                buffers.add(buffer);
+                consumers.add(c);
+                threads.add(tc);
+            }
 
-        Producer p = new Producer(buffers,semaphoresFree, semaphoresBlocked);
-        Thread tp = new Thread(p);
+            Producer p = new Producer(buffers,semaphoresFree, semaphoresBlocked);
+            Thread tp = new Thread(p);
 
-        long begin = System.currentTimeMillis();
-        tp.start();
-        
-        for (int i=0;i<threadsQuantity;i++) {
-            threads.get(i).start();
-        }
+            long begin = System.currentTimeMillis();
+            tp.start();
 
-        for (int i = 0; i < threadsQuantity ; i++) {
+            for (int i=0;i<threadsQuantity;i++) {
+                threads.get(i).start();
+            }
+
+            for (int i = 0; i < threadsQuantity ; i++) {
+                try {
+                    threads.get(i).join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            long end = System.currentTimeMillis();
+            long total_processing_time = end-begin;
+
+            BufferedWriter writer = null;
+
             try {
-                threads.get(i).join();
-            } catch (InterruptedException e) {
+                writer = new BufferedWriter(new FileWriter(outputPath + "log/tpt" + round +".txt"));
+                writer.write(String.valueOf(total_processing_time));
+                writer.close();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        long end = System.currentTimeMillis();
-        long total_processing_time = end-begin;
 
-        BufferedWriter writer = null;
-        
-        try {
-            writer = new BufferedWriter(new FileWriter(outputPath + "log/tpt.txt"));
-            writer.write(String.valueOf(total_processing_time));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("- Total Processing Time " + (total_processing_time) + " Milliseconds");
         }
-
-        System.out.println("- Total Processing Time " + (total_processing_time) + " Milliseconds");
     }
 }
