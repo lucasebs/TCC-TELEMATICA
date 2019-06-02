@@ -97,7 +97,7 @@ public class ImageReceiverServer implements Runnable {
                 //enviando
                 output.writeLong(processing_time);
 //                proc.getNumberOfFaces();
-                output.writeLong(proc.getNumberOfFaces());
+//                output.writeLong(proc.getNumberOfFaces());
                 //enviando o arquivo pela rede
                 count = 0;
                 //enquanto houver bytes para enviar, obtém do arquivo e manda pela rede
@@ -111,11 +111,12 @@ public class ImageReceiverServer implements Runnable {
                 }
             }
 
-            Thread.sleep(2000);
+//            Thread.sleep(2000);
             DataOutputStream output = new DataOutputStream(this.sock.getOutputStream());
             output.writeLong(0);
 
-        } catch (IOException | InterruptedException ex) {
+//        } catch (IOException | InterruptedException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(ImageReceiverServer.class.getName()).log(Level.SEVERE, null, ex);
         }
 

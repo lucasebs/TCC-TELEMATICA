@@ -45,7 +45,7 @@ public class ImageReceiverClient implements Runnable {
                 long processing_time_per_image = this.input.readLong();
                 this.times.add(processing_time_per_image);
 
-                long numberOfFaces = this.input.readLong();
+//                long numberOfFaces = this.input.readLong();
 
                 byte[] stream = new byte[16 * 1024];
                 int count;
@@ -59,8 +59,9 @@ public class ImageReceiverClient implements Runnable {
 //                System.out.println( "- Processing Time per Image: " +
 //                         processing_time_per_image + " Milliseconds / Milissegundos");
 
-                String toWrite = '"' + name + '"' + ';'+ String.valueOf(numberOfFaces)
-                                    + ';'+ String.valueOf(processing_time_per_image);
+//                String toWrite = '"' + name + '"' + ';'+ String.valueOf(numberOfFaces)
+//                                    + ';'+ String.valueOf(processing_time_per_image);
+                String toWrite = '"' + name + '"' + ';' + String.valueOf(processing_time_per_image);
                 System.out.println(toWrite);
                 writer.write(toWrite);
                 writer.newLine();

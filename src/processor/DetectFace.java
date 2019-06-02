@@ -12,22 +12,22 @@ import static org.opencv.imgproc.Imgproc.rectangle;
 
 public class DetectFace {
     private CascadeClassifier faceDetector;
-    private Integer numberOfFaces;
+//    private Integer numberOfFaces;
 
     public DetectFace() {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         faceDetector = new CascadeClassifier("src/processor/haarcascade_frontalface_alt.xml");
     }
 
-    public Integer getNumberOfFaces() {
-        return this.numberOfFaces;
-    }
+//    public Integer getNumberOfFaces() {
+//        return this.numberOfFaces;
+//    }
 
     public Mat detection(Mat image) {
         MatOfRect faceDetections = new MatOfRect();
         faceDetector.detectMultiScale(image, faceDetections);
 
-        this.numberOfFaces = faceDetections.toArray().length;
+//        this.numberOfFaces = faceDetections.toArray().length;
 
         // Draw a bounding box around each face.
         for (Rect rect : faceDetections.toArray()) {
