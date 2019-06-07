@@ -7,6 +7,7 @@ import processor.DetectFace;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -70,28 +71,39 @@ public class ImageReceiverServer implements Runnable {
 
                 Mat imgMat = converter.toMat(img);
                 long begin = System.currentTimeMillis();
-                Mat imgOut = proc.detection(imgMat);
+//                Mat imgOut = proc.detection(imgMat);
+
+                ArrayList<int[]> faces = proc.detectionPositions(imgMat);
 
 //                System.out.println("Imagem processada...");
                 long end = System.currentTimeMillis();
                 long processing_time = end - begin;
-                File f2 = new File("temp.jpg");  //output file path
-                ImageIO.write(converter.toBufferedImage(imgOut), "jpg", f2);
-//                System.out.println("Imagem temp salva...");
-
-                File f3 = new File("temp.jpg");
-
-                //criando um input stream para ler os bytes do arquivo (não decodifica a imagem)
-                InputStream in = new FileInputStream(f3);
-
-                long length = f3.length();
-                byte[] bytes = new byte[16 * 1024]; //criando o array de bytes usado para enviar os dados da imgagem
+//                File f2 = new File("temp.jpg");  //output file path
+//                ImageIO.write(converter.toBufferedImage(imgOut), "jpg", f2);
+////                System.out.println("Imagem temp salva...");
+//
+//                File f3 = new File("temp.jpg");
+//
+//                //criando um input stream para ler os bytes do arquivo (não decodifica a imagem)
+//                InputStream in = new FileInputStream(f3);
+//
+//                long length = f3.length();
+//                byte[] bytes = new byte[16 * 1024]; //criando o array de bytes usado para enviar os dados da imgagem
                 DataOutputStream output = new DataOutputStream(this.sock.getOutputStream());
                 //enviando a quantidade de bytes do arquivo
-                output.writeLong(length);
+//                output.writeLong(length);
+                if (faces.size() == 0) {
+                    output.writeLong(1);
+                } else {
+                    output.writeLong(faces.size());
+                }
+
                 //enviadno name do arquivo
-                System.out.println("Sending "+name+ "_p" + "...");
-                output.writeUTF((name + "_p" +  ".jpg"));
+//                System.out.println("Sending "+name+ "_p" + "...");
+//                output.writeUTF((name + "_p" +  ".jpg"));
+                System.out.println("Sending "+name+ " processed" + "...");
+                output.writeUTF(name);
+
                 //enviadno
 //                output.writeLong();
                 //enviando
@@ -101,14 +113,16 @@ public class ImageReceiverServer implements Runnable {
                 //enviando o arquivo pela rede
                 count = 0;
                 //enquanto houver bytes para enviar, obtém do arquivo e manda pela rede
-                while ((count = in.read(bytes, 0, bytes.length)) > 0) { //count recebe a qtd de bytes lidos do arquivo para serem enviados
-                    //  System.out.println("Enviou " + count + " bytes");
-                    try {
-                        output.write(bytes, 0, count); //envia count bytes pela rede
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                ObjectOutputStream objectOutput = new ObjectOutputStream(this.sock.getOutputStream());
+                objectOutput.writeObject(faces);
+//                while ((count = in.read(bytes, 0, bytes.length)) > 0) { //count recebe a qtd de bytes lidos do arquivo para serem enviados
+//                    //  System.out.println("Enviou " + count + " bytes");
+//                    try {
+//                        output.write(bytes, 0, count); //envia count bytes pela rede
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
             }
 
 //            Thread.sleep(2000);

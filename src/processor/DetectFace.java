@@ -8,10 +8,13 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.objdetect.CascadeClassifier;
 
+import java.util.ArrayList;
+
 import static org.opencv.imgproc.Imgproc.rectangle;
 
 public class DetectFace {
     private CascadeClassifier faceDetector;
+
 //    private Integer numberOfFaces;
 
     public DetectFace() {
@@ -36,4 +39,18 @@ public class DetectFace {
 
         return image;
     }
+
+    public ArrayList detectionPositions(Mat image) {
+        MatOfRect faceDetections = new MatOfRect();
+        faceDetector.detectMultiScale(image, faceDetections);
+        ArrayList<int[]> positions = new ArrayList();
+
+        for (Rect rect : faceDetections.toArray()) {
+            positions.add(new int[]{rect.x, rect.y, rect.width, rect.height});
+        }
+
+        return positions;
+    }
+
+//    public
 }

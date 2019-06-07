@@ -14,7 +14,7 @@ public class PrincipalServer {
         try {
 
             InetAddress ia = InetAddress.getByName("localhost");
-            int port = 5007;
+            int port = 5001;
             ServerSocket server = new ServerSocket(port, 10, ia);
 
             while (true) {
