@@ -11,13 +11,13 @@ import java.util.logging.Logger;
 public class PrincipalClient {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Integer executionTimes = 1;
+        Integer executionTimes = 10;
 
         for (int l = 0; l < executionTimes; l++) {
             ArrayList<Socket> sockets = new ArrayList<Socket>();
             ArrayList<Thread> threads = new ArrayList<Thread>();
 
-            BufferedReader f = new BufferedReader(new FileReader("src/input/servers_t.txt"));
+            BufferedReader f = new BufferedReader(new FileReader("src/input/servers.txt"));
 
 
             ArrayList<String> result = new ArrayList<String>();
